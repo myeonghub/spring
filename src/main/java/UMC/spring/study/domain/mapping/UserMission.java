@@ -1,11 +1,11 @@
 package UMC.spring.study.domain.mapping;
 
+import UMC.spring.study.domain.Menu;
+import UMC.spring.study.domain.Mission;
+import UMC.spring.study.domain.User;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigInteger;
 
 @Entity
@@ -19,7 +19,16 @@ public class UserMission {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Long userMissionIdx;
-    private Long userIdx;
-    private Long menuIdx;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MissionIdx")
+    private Mission mission ;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "UserIdx")
+    private User user;
+
+
+
 
 }

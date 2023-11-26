@@ -18,14 +18,24 @@ public class Review extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewIdx;
     private String reviewText;
-    private Long userIdx;
-    private Long storeIdx;
 
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "VARCHAR(10)")
     private ReviewStar reviewStar;
 
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "VARCHAR(10)")
     private ReviewStatus reviewstate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "UserIdx")
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "storeIdx")
+    private Store store;
+
+
 
 
 
