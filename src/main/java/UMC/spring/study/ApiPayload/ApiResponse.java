@@ -20,18 +20,10 @@ public class ApiResponse<T> {
     private T result;
 
 
-     //성공한 경우 응답 생성
-
+    // 성공한 경우 응답 생성
 
     public static <T> ApiResponse<T> onSuccess(T result){
         return new ApiResponse<>(true, SuccessStatus._OK.getCode() , SuccessStatus._OK.getMessage(), result);
-    }
-
-    public static <T> ApiResponse<T> missionSuccess(T result){
-        return new ApiResponse<>(true, SuccessStatus._OK.getCode() , SuccessStatus._OK.getMessage(), result);
-    }
-    public static <T> ApiResponse<T> missionfailure(T result){
-        return new ApiResponse<>(false, ErrorStatus.MISSION_EXCEPTION.getCode() , ErrorStatus.MISSION_EXCEPTION.getMessage(), result);
     }
 
     public static <T> ApiResponse<T> of(BaseCode code, T result){
@@ -41,7 +33,7 @@ public class ApiResponse<T> {
 
     // 실패한 경우 응답 생성
     public static <T> ApiResponse<T> onFailure(String code, String message, T data){
-        return new ApiResponse<>(true, code, message, data);
+        return new ApiResponse<>(false, code, message, data);
     }
 
 }

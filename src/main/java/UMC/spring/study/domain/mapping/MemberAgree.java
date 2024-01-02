@@ -1,34 +1,28 @@
 package UMC.spring.study.domain.mapping;
 
-import UMC.spring.study.domain.Menu;
-import UMC.spring.study.domain.Mission;
-import UMC.spring.study.domain.User;
 import lombok.*;
+import UMC.spring.study.domain.Member;
+import UMC.spring.study.domain.Terms;
+import UMC.spring.study.domain.common.BaseEntity;
 
 import javax.persistence.*;
-import java.math.BigInteger;
 
 @Entity
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+public class MemberAgree extends BaseEntity {
 
-public class UserMission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
-    private Long userMissionIdx;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MissionIdx")
-    private Mission mission ;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "UserIdx")
-    private User user;
+    @JoinColumn(name = "member_id")
+    private Member member;
 
-
-
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "terms_id")
+    private Terms terms;
 }

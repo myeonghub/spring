@@ -1,10 +1,5 @@
 package UMC.spring.study.ApiPayload.exception;
 
-
-import UMC.spring.study.ApiPayload.ApiResponse;
-import UMC.spring.study.ApiPayload.code.ErrorReasonDTO;
-
-import UMC.spring.study.ApiPayload.code.Status.ErrorStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,9 +11,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import UMC.spring.study.ApiPayload.ApiResponse;
+import UMC.spring.study.ApiPayload.code.ErrorReasonDTO;
+import UMC.spring.study.ApiPayload.code.Status.ErrorStatus;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -42,6 +42,7 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
     @Override
     public ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
+
         Map<String, String> errors = new LinkedHashMap<>();
 
         e.getBindingResult().getFieldErrors().stream()
@@ -82,6 +83,7 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
                 webRequest
         );
     }
+
     private ResponseEntity<Object> handleExceptionInternalFalse(Exception e, ErrorStatus errorCommonStatus,
                                                                 HttpHeaders headers, HttpStatus status, WebRequest request, String errorPoint) {
         ApiResponse<Object> body = ApiResponse.onFailure(errorCommonStatus.getCode(),errorCommonStatus.getMessage(),errorPoint);

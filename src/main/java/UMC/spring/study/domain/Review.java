@@ -1,12 +1,10 @@
 package UMC.spring.study.domain;
 
-import UMC.spring.study.common.BaseEntity;
-import UMC.spring.study.domain.enums.ReviewStatus;
-import UMC.spring.study.domain.enums.ReviewStar;
 import lombok.*;
+import UMC.spring.study.domain.common.BaseEntity;
 
 import javax.persistence.*;
-import java.math.BigInteger;
+import java.util.List;
 
 @Entity
 @Getter
@@ -14,29 +12,39 @@ import java.math.BigInteger;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Review extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long reviewIdx;
-    private String reviewText;
+    private Long id;
 
-    @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "VARCHAR(10)")
-    private ReviewStar reviewStar;
+    private String title;
 
-    @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "VARCHAR(10)")
-    private ReviewStatus reviewstate;
+    private Float score;
+
+    private String body;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "UserIdx")
-    private User user;
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "storeIdx")
+    @JoinColumn(name = "store_id")
     private Store store;
 
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
+    private List<ReviewImage> reviewImageList;
 
+    public void setMember(Member member){
+        if(this.member != null)
+            member.getReviewList().remove(this);
+        this.member = member;
+        member.getReviewList().add(this);
+    }
 
-
-
+    public void setStore(Store store){
+        if (this.store != null)
+            store.getReviewList().remove(this);
+        this.store = store;
+        store.getReviewList().add(this);
+    }
 }
